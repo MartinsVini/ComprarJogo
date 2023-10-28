@@ -1,7 +1,8 @@
-﻿using ComprarJogo;
+﻿using ComprarJogo.Data.Maps;
+using ComprarJogo.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ComprarJogo
+namespace ComprarJogo.Data
 {
     public class CompraDbContext : DbContext
     {
@@ -12,33 +13,15 @@ namespace ComprarJogo
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Jogo> Jogos { get; set; }
         public DbSet<Compra> Compras { get; set; }
-        
 
-        //Mapeando Atributos de Cliente
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Cliente>()
-                .HasKey(c => c.GetId());    
-
-            modelBuilder.Entity<Cliente>()
-                .HasKey(c => c.getCPF());
-
-            modelBuilder.Entity<Cliente>()
-                .Property(c => c.getNome()).IsRequired().HasMaxLength(250);
-
-            modelBuilder.Entity<Cliente>()
-                .Property(c => c.CPF).IsRequired().HasMaxLength(250);
-
-            modelBuilder.Entity<Cliente>()
-                .Property(c => c.Senha).IsRequired().HasMaxLength(250);
-
-            modelBuilder.Entity<Cliente>()
-                .Property(c => c.DataNascimento).IsRequired().HasMaxLength(250);
+            modelBuilder.ApplyConfiguration(new ClienteMap());
+            modelBuilder.ApplyConfiguration(new JogoMap());
+            modelBuilder.ApplyConfiguration(new CompraMap());
 
             base.OnModelCreating(modelBuilder);
         }
-
-
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

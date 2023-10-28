@@ -1,6 +1,8 @@
-﻿namespace ComprarJogo
+﻿namespace ComprarJogo.Repository
 {
     public class ClienteDAO
     {
+
+
     }
 }

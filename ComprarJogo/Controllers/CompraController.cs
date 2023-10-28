@@ -1,28 +1,46 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ComprarJogo.Data;
+using ComprarJogo.Models;
+using ComprarJogo.Repository;
+using ComprarJogo.Repository.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ComprarJogo.Controllers
 {
-    public class CompraController
+
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CompraController : ControllerBase
     {
+
+        private readonly DAO<Jogo> jogoDAO;
+        private readonly CompraDbContext dbContext;
+
+        public CompraController(DAO<Jogo> jogoDAO,CompraDbContext dbContext) 
+        {
+            this.jogoDAO = jogoDAO;
+            this.dbContext = dbContext; 
+        }
+
         [HttpGet]
-        public List<Jogo> ExibirCatologoDeJogos() 
+        public ActionResult<List<Jogo>> ExibirCatologoDeJogos() 
         { 
-         return Loja.GetJogos();   
+            return jogoDAO.BuscarTodos();   
         }
 
         [HttpGet]
         public List<Jogo> ExibirJogo(string filtro) 
         {
-            List<Jogo> jogos = BuscarJogoPorFiltro(filtro);
+            List<Jogo> jogos = jogoDAO.BuscarJogosPorGenero(filtro,dbContext);
 
             return jogos;
         }
 
-        public Compra IniciarCompra(Jogo jogo)
+        [HttpPost]
+        public Compra IniciarCompra(int idJogo, int idCliente)
         {
-            Compra compra = new Compra(jogo);
 
-            return compra;
+
+            return null;
         }
 
 

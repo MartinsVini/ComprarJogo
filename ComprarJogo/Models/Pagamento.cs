@@ -1,4 +1,4 @@
-﻿namespace ComprarJogo
+﻿namespace ComprarJogo.Models
 {
     public class Pagamento
     {
