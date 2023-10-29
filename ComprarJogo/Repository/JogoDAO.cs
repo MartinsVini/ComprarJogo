@@ -22,7 +22,7 @@ namespace ComprarJogo.Repository
         public Jogo BuscarPorId(int id)
         {
 
-            Jogo? jogoPorId = dbContext.Jogos.AsNoTracking().FirstOrDefault(x => x.GetIdJogo() == id);
+            Jogo? jogoPorId = dbContext.Jogos.AsNoTracking().FirstOrDefault(x => x.IdJogo == id);
 
             return jogoPorId ?? throw new Exception($"jogo para o ID: {id} não foi encontrado!");
         }
@@ -46,7 +46,7 @@ namespace ComprarJogo.Repository
         {
 
             Jogo jogoPorId = BuscarPorId(id) ?? throw new Exception($"Jogo para o ID: {id} não foi encontrado!");
-            jogoPorId.SetNome() = jogo.GetNome;
+            //jogoPorId.Nome = jogo.Nome;
             //jogoPorId.Valor = jogo.Valor;
             //jogoPorId.Tipos = jogo.Tipos;
             //jogoPorId.Descrição = jogo.Descrição;
@@ -67,8 +67,6 @@ namespace ComprarJogo.Repository
             return true;
         }
 
-        
-
 
     }
 
@@ -77,7 +75,8 @@ namespace ComprarJogo.Repository
         public static List<Jogo> BuscarJogosPorGenero(this DAO<Jogo> dao, string filtro, CompraDbContext dbContext)
         {
             //Implementar metodo com o context
-            List<Jogo> jogosPorGenero = dbContext.Jogos.Where(x => x.GetGenero() == filtro).AsNoTracking().ToList();
+            List<Jogo> jogosPorGenero = dbContext.Jogos.Where(x => x.Genero
+            == filtro).AsNoTracking().ToList();
 
             return jogosPorGenero;
 

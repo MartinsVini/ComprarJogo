@@ -8,10 +8,10 @@ namespace ComprarJogo.Data.Maps
     {
         public void Configure(EntityTypeBuilder<Compra> builder)
         {
-            builder.HasKey(c => c.GetIdCompra());
-            builder.Property(c => c.GetIdCompra()).UseIdentityColumn();
-            builder.Property(c => c.GetDataCompra()).IsRequired();
-            builder.Property(c => c.GetValor()).IsRequired();
+            builder.HasKey(c => c.IdCompra);
+            builder.Property(c => c.IdCompra).UseIdentityColumn();
+            builder.Property(c => c.DataCompra).IsRequired();
+            builder.Property(c => c.Valor).IsRequired();
         }
     }
 }

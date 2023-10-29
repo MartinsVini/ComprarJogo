@@ -8,14 +8,14 @@ namespace ComprarJogo.Data.Maps
     {
         public void Configure(EntityTypeBuilder<Jogo> builder)
         {
-            builder.HasKey(c => c.GetIdJogo());
-            builder.Property(c => c.GetIdJogo()).UseIdentityColumn();
-            builder.Property(c => c.GetNome()).IsRequired();
-            builder.Property(c => c.GetDataLançamento()).IsRequired().HasMaxLength(250);
-            builder.Property(c => c.GetGenero()).IsRequired().HasMaxLength(250);
-            builder.Property(c => c.GetClassificaoIndicativa()).IsRequired().HasMaxLength(250);
-            builder.Property(c => c.GetPreço()).IsRequired().HasMaxLength(250);
-            builder.Property(c => c.GetDescricao()).IsRequired().HasMaxLength(250);
+            builder.HasKey(c => c.IdJogo);
+            builder.Property(c => c.IdJogo).UseIdentityColumn();
+            builder.Property(c => c.Nome).IsRequired();
+            builder.Property(c => c.DataLançamento).IsRequired().HasMaxLength(250);
+            builder.Property(c => c.Genero).IsRequired().HasMaxLength(250);
+            builder.Property(c => c.ClassificaoIndicativa).IsRequired().HasMaxLength(250);
+            builder.Property(c => c.Preço).IsRequired().HasMaxLength(250);
+            builder.Property(c => c.Descricao).IsRequired().HasMaxLength(250);
 
 
 

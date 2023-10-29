@@ -1,5 +1,8 @@
 
 using ComprarJogo.Data;
+using ComprarJogo.Models;
+using ComprarJogo.Repository;
+using ComprarJogo.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace ComprarJogo
@@ -20,6 +23,9 @@ namespace ComprarJogo
             builder.Services.AddDbContext<CompraDbContext>(
                 options => options.UseSqlServer(builder.Configuration.GetConnectionString("Data Source = localhost; Persist Security Info = True; User ID = padrao; Password = 123456;TrustServerCertificate=True;")));
 
+            builder.Services.AddScoped< DAO<Jogo>, JogoDAO>();
+            //builder.Services.AddScoped<DAO<Cliente>, ClienteDAO>();
+            //builder.Services.AddScoped<DAO<Compra>, CompraDAO>();
 
             var app = builder.Build();
 
