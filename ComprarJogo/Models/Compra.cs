@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ComprarJogo.Repository;
+using System.ComponentModel.DataAnnotations;
 
 namespace ComprarJogo.Models
 {
     public class Compra
     {
+       
         private int _IdCompra;
 
         public int IdCompra
@@ -19,26 +21,53 @@ namespace ComprarJogo.Models
             get { return _IdJogo; }
             set { _IdJogo = value; }
         }
+        
+        private int _IdCliente;
 
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
-        private DateTime? _DataCompra;
+        public int IdCliente
+        {
+            get {return _IdCliente; }
+            set { _IdCliente = value; }
+        }
 
-        public DateTime? DataCompra
+        private int _IdPagamento;
+
+        public int IdPagamento
+        {
+            get { return _IdPagamento; }
+            set { _IdPagamento = value; }
+        }
+
+        private string? _CpfCliente;
+
+        public string? CpfCliente
+        {
+            get { return _CpfCliente; }
+            set { _CpfCliente = value; }
+        }
+      
+        private string? _DataCompra;
+
+        public string ? DataCompra
         {
             get { return _DataCompra; } 
             set { _DataCompra = value; }
         }
 
-        private double? _Valor;
+ 
 
-        public double? Valor
+
+        public virtual Pagamento? Pagamento { get; set; }
+        public virtual Cliente? Cliente { get; set; }
+        public virtual Jogo? Jogo { get; set; }
+
+        public Compra(int idJogo, int idCliente, string cpfCliente)
         {
-            get { return _Valor; }
-            set { _Valor = value; }
-        }
-        public virtual Cliente? Cliente { get => Cliente; set => Cliente = value; }
-        public virtual Jogo? Jogo { get => Jogo; set => Jogo = value; }
 
-        
+            this.IdJogo = idJogo;
+            this.IdCliente = idCliente;
+            this.CpfCliente = cpfCliente;
+            this.DataCompra = DateTime.Now.ToString();
+        }
     }
 }

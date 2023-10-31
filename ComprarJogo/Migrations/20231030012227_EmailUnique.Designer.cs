@@ -4,6 +4,7 @@ using ComprarJogo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComprarJogo.Migrations
 {
     [DbContext(typeof(CompraDbContext))]
-    partial class CompraDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231030012227_EmailUnique")]
+    partial class EmailUnique
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,35 +72,28 @@ namespace ComprarJogo.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCompra"));
 
-                    b.Property<string>("CpfCliente")
+                    b.Property<string>("ClienteCPF")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("DataCompra")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("IdCliente")
+                    b.Property<int?>("ClienteIdCliente")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdJogo")
+                    b.Property<DateTime?>("DataCompra")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("JogoIdJogo")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdPagamento")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Valor")
+                    b.Property<double?>("Valor")
+                        .IsRequired()
                         .HasColumnType("float");
 
                     b.HasKey("IdCompra");
 
-                    b.HasIndex("IdJogo")
-                        .IsUnique();
+                    b.HasIndex("JogoIdJogo");
 
-                    b.HasIndex("IdPagamento")
-                        .IsUnique();
-
-                    b.HasIndex("IdCliente", "CpfCliente")
-                        .IsUnique()
-                        .HasFilter("[CpfCliente] IS NOT NULL");
+                    b.HasIndex("ClienteIdCliente", "ClienteCPF");
 
                     b.ToTable("Compras");
                 });
@@ -114,10 +110,10 @@ namespace ComprarJogo.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("int");
 
-                    b.Property<string>("DataLançamento")
+                    b.Property<DateTime?>("DataLançamento")
                         .IsRequired()
                         .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
@@ -142,63 +138,19 @@ namespace ComprarJogo.Migrations
                     b.ToTable("Jogos");
                 });
 
-            modelBuilder.Entity("ComprarJogo.Models.Pagamento", b =>
-                {
-                    b.Property<int>("IdPagamento")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdPagamento"));
-
-                    b.Property<string>("Cupom")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("TotalPagamento")
-                        .HasColumnType("float");
-
-                    b.HasKey("IdPagamento");
-
-                    b.ToTable("Pagamentos");
-                });
-
             modelBuilder.Entity("ComprarJogo.Models.Compra", b =>
                 {
                     b.HasOne("ComprarJogo.Models.Jogo", "Jogo")
-                        .WithOne("Compra")
-                        .HasForeignKey("ComprarJogo.Models.Compra", "IdJogo")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ComprarJogo.Models.Pagamento", "Pagamento")
-                        .WithOne("Compra")
-                        .HasForeignKey("ComprarJogo.Models.Compra", "IdPagamento")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("JogoIdJogo");
 
                     b.HasOne("ComprarJogo.Models.Cliente", "Cliente")
-                        .WithOne("Compra")
-                        .HasForeignKey("ComprarJogo.Models.Compra", "IdCliente", "CpfCliente");
+                        .WithMany()
+                        .HasForeignKey("ClienteIdCliente", "ClienteCPF");
 
                     b.Navigation("Cliente");
 
                     b.Navigation("Jogo");
-
-                    b.Navigation("Pagamento");
-                });
-
-            modelBuilder.Entity("ComprarJogo.Models.Cliente", b =>
-                {
-                    b.Navigation("Compra");
-                });
-
-            modelBuilder.Entity("ComprarJogo.Models.Jogo", b =>
-                {
-                    b.Navigation("Compra");
-                });
-
-            modelBuilder.Entity("ComprarJogo.Models.Pagamento", b =>
-                {
-                    b.Navigation("Compra");
                 });
 #pragma warning restore 612, 618
         }

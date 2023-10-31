@@ -19,10 +19,10 @@ namespace ComprarJogo.Models
             get { return _Nome; }
             set { _Nome = value; } 
         }
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
-        private DateTime? _DataLançamento;
+     
+        private string? _DataLançamento;
 
-        public DateTime? DataLançamento
+        public string? DataLançamento
         {
             get { return _DataLançamento; }
             set { _DataLançamento = value; }
@@ -58,6 +58,12 @@ namespace ComprarJogo.Models
             set { _Descricao = value; }
         }
 
+        private Compra? _Compra;
         
+        public virtual Compra? Compra
+        {
+            get { return _Compra;}
+            set { _Compra = value; }
+        }
     }
 }

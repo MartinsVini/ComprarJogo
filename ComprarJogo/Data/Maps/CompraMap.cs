@@ -8,10 +8,23 @@ namespace ComprarJogo.Data.Maps
     {
         public void Configure(EntityTypeBuilder<Compra> builder)
         {
+
             builder.HasKey(c => c.IdCompra);
             builder.Property(c => c.IdCompra).UseIdentityColumn();
-            builder.Property(c => c.DataCompra).IsRequired();
-            builder.Property(c => c.Valor).IsRequired();
+            builder.Property(c => c.IdCliente);
+            builder.Property(c => c.CpfCliente);
+            builder.Property(c => c.IdPagamento);
+            builder.Property(c => c.DataCompra);
+            
+
+            
+            builder.HasOne(c => c.Jogo).WithOne(x => x.Compra);
+            builder.HasOne(c => c.Cliente).WithOne(x => x.Compra);
+            builder.HasOne(c => c.Pagamento).WithOne(x => x.Compra);
+
+
         }
     }
+
+
 }

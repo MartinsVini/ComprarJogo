@@ -16,9 +16,10 @@ namespace ComprarJogo.Controllers
         private readonly DAO<Compra> compraDAO;
         private readonly CompraDbContext dbContext;
 
-        public SistemaController(DAO<Jogo> jogoDAO,CompraDbContext dbContext) 
+        public SistemaController(DAO<Jogo> jogoDAO,DAO<Compra> compraDAO, CompraDbContext dbContext) 
         {
             this.jogoDAO = jogoDAO;
+            this.compraDAO = compraDAO;
             this.dbContext = dbContext; 
         }
 
@@ -27,6 +28,13 @@ namespace ComprarJogo.Controllers
         { 
             List<Jogo> jogos = jogoDAO.BuscarTodos();
             return Ok(jogos);
+        }
+
+        [HttpGet("/ExibirCompras")]
+        public ActionResult<List<Compra>> ExibirCompras()
+        {
+            List<Compra> compras = compraDAO.BuscarTodos();
+            return Ok(compras);
         }
 
         [HttpGet("/ExibirJogo")]
@@ -38,11 +46,11 @@ namespace ComprarJogo.Controllers
         }
 
         [HttpPost("/IniciarCompra")]
-        public ActionResult<Compra> IniciarCompra(int idJogo, int idCliente)
+        public ActionResult<Compra> IniciarCompra([FromBody]Compra compra)
         {
+            Compra compraIniciada = compraDAO.Adicionar(compra);
 
-
-            return null;
+            return Ok(compraIniciada);
         }
 
         [HttpPut("/AtualizarPrecoCompra")]

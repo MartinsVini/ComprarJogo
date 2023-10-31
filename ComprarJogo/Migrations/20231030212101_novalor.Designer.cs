@@ -4,6 +4,7 @@ using ComprarJogo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComprarJogo.Migrations
 {
     [DbContext(typeof(CompraDbContext))]
-    partial class CompraDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231030212101_novalor")]
+    partial class novalor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,8 +75,9 @@ namespace ComprarJogo.Migrations
                     b.Property<string>("CpfCliente")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("DataCompra")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("DataCompra")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("IdCliente")
                         .HasColumnType("int");
@@ -81,23 +85,11 @@ namespace ComprarJogo.Migrations
                     b.Property<int>("IdJogo")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdPagamento")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Valor")
-                        .HasColumnType("float");
-
                     b.HasKey("IdCompra");
 
-                    b.HasIndex("IdJogo")
-                        .IsUnique();
+                    b.HasIndex("IdJogo");
 
-                    b.HasIndex("IdPagamento")
-                        .IsUnique();
-
-                    b.HasIndex("IdCliente", "CpfCliente")
-                        .IsUnique()
-                        .HasFilter("[CpfCliente] IS NOT NULL");
+                    b.HasIndex("IdCliente", "CpfCliente");
 
                     b.ToTable("Compras");
                 });
@@ -114,10 +106,10 @@ namespace ComprarJogo.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("int");
 
-                    b.Property<string>("DataLançamento")
+                    b.Property<DateTime?>("DataLançamento")
                         .IsRequired()
                         .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
@@ -142,63 +134,31 @@ namespace ComprarJogo.Migrations
                     b.ToTable("Jogos");
                 });
 
-            modelBuilder.Entity("ComprarJogo.Models.Pagamento", b =>
-                {
-                    b.Property<int>("IdPagamento")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdPagamento"));
-
-                    b.Property<string>("Cupom")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("TotalPagamento")
-                        .HasColumnType("float");
-
-                    b.HasKey("IdPagamento");
-
-                    b.ToTable("Pagamentos");
-                });
-
             modelBuilder.Entity("ComprarJogo.Models.Compra", b =>
                 {
                     b.HasOne("ComprarJogo.Models.Jogo", "Jogo")
-                        .WithOne("Compra")
-                        .HasForeignKey("ComprarJogo.Models.Compra", "IdJogo")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ComprarJogo.Models.Pagamento", "Pagamento")
-                        .WithOne("Compra")
-                        .HasForeignKey("ComprarJogo.Models.Compra", "IdPagamento")
+                        .WithMany("Compras")
+                        .HasForeignKey("IdJogo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ComprarJogo.Models.Cliente", "Cliente")
-                        .WithOne("Compra")
-                        .HasForeignKey("ComprarJogo.Models.Compra", "IdCliente", "CpfCliente");
+                        .WithMany("Compras")
+                        .HasForeignKey("IdCliente", "CpfCliente");
 
                     b.Navigation("Cliente");
 
                     b.Navigation("Jogo");
-
-                    b.Navigation("Pagamento");
                 });
 
             modelBuilder.Entity("ComprarJogo.Models.Cliente", b =>
                 {
-                    b.Navigation("Compra");
+                    b.Navigation("Compras");
                 });
 
             modelBuilder.Entity("ComprarJogo.Models.Jogo", b =>
                 {
-                    b.Navigation("Compra");
-                });
-
-            modelBuilder.Entity("ComprarJogo.Models.Pagamento", b =>
-                {
-                    b.Navigation("Compra");
+                    b.Navigation("Compras");
                 });
 #pragma warning restore 612, 618
         }

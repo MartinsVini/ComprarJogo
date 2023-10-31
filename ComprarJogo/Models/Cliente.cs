@@ -56,6 +56,15 @@ namespace ComprarJogo.Models
             set { _IdCliente = value; }
         }
 
+        private Compra? _Compra;
+
+        public virtual Compra? Compra
+        {
+            get { return _Compra; }
+            set { _Compra = value; }   
+        }
+
+
         //private List<Jogo>? JogosPossuidos;
 
 

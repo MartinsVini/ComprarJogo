@@ -23,9 +23,9 @@ namespace ComprarJogo
             builder.Services.AddDbContext<CompraDbContext>(
                 options => options.UseSqlServer(builder.Configuration.GetConnectionString("Data Source = localhost; Persist Security Info = True; User ID = padrao; Password = 123456;TrustServerCertificate=True;")));
 
-            builder.Services.AddScoped< DAO<Jogo>, JogoDAO>();
-            //builder.Services.AddScoped<DAO<Cliente>, ClienteDAO>();
-            //builder.Services.AddScoped<DAO<Compra>, CompraDAO>();
+            builder.Services.AddTransient<DAO<Jogo>, JogoDAO>();
+            builder.Services.AddTransient<DAO<Cliente>, ClienteDAO>();
+            builder.Services.AddTransient<DAO<Compra>, CompraDAO>();
 
             var app = builder.Build();
 

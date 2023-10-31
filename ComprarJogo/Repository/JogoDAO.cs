@@ -1,9 +1,8 @@
 ﻿using ComprarJogo.Data;
 using ComprarJogo.Models;
 using ComprarJogo.Repository.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
+
 
 namespace ComprarJogo.Repository
 {
@@ -18,7 +17,6 @@ namespace ComprarJogo.Repository
 
         }
 
-        [HttpGet]
         public Jogo BuscarPorId(int id)
         {
 
@@ -70,7 +68,7 @@ namespace ComprarJogo.Repository
 
     }
 
-    public static class MetodosExtensao 
+    public static class MetodosExtensaoJogo 
     {
         public static List<Jogo> BuscarJogosPorGenero(this DAO<Jogo> dao, string filtro, CompraDbContext dbContext)
         {

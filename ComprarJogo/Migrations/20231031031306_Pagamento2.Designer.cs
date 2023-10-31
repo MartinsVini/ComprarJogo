@@ -4,6 +4,7 @@ using ComprarJogo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComprarJogo.Migrations
 {
     [DbContext(typeof(CompraDbContext))]
-    partial class CompraDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231031031306_Pagamento2")]
+    partial class Pagamento2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,8 +75,8 @@ namespace ComprarJogo.Migrations
                     b.Property<string>("CpfCliente")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("DataCompra")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("DataCompra")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("IdCliente")
                         .HasColumnType("int");
@@ -83,9 +86,6 @@ namespace ComprarJogo.Migrations
 
                     b.Property<int>("IdPagamento")
                         .HasColumnType("int");
-
-                    b.Property<double>("Valor")
-                        .HasColumnType("float");
 
                     b.HasKey("IdCompra");
 
@@ -158,7 +158,7 @@ namespace ComprarJogo.Migrations
 
                     b.HasKey("IdPagamento");
 
-                    b.ToTable("Pagamentos");
+                    b.ToTable("Pagamento");
                 });
 
             modelBuilder.Entity("ComprarJogo.Models.Compra", b =>

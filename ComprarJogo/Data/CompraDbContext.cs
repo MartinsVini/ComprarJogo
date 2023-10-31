@@ -14,12 +14,17 @@ namespace ComprarJogo.Data
         public DbSet<Jogo> Jogos { get; set; }
         public DbSet<Compra> Compras { get; set; }
 
+        public DbSet<Pagamento> Pagamentos { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Cliente>().HasKey(c => new { c.IdCliente, c.CPF });
+            modelBuilder.Entity<Cliente>().HasIndex(c => c.Email).IsUnique();
             modelBuilder.ApplyConfiguration(new ClienteMap());
             modelBuilder.ApplyConfiguration(new JogoMap());
             modelBuilder.ApplyConfiguration(new CompraMap());
-
+            modelBuilder.ApplyConfiguration(new PagamentoMap());
+            
             base.OnModelCreating(modelBuilder);
         }
 
