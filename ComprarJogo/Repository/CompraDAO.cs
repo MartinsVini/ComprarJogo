@@ -71,4 +71,41 @@ namespace ComprarJogo.Repository
 
        
     }
+    public static class MetodosDeExtensaoCompra
+    {
+        private static readonly DAO<Compra>? CompraDAO;
+
+        public static string AtualizarPreco(this DAO<Compra> dao,int idCompra, string cupom, CompraDbContext dbContext)
+        {
+            double? descontoCupom = 0;
+            Compra? compraPorId = CompraDAO.BuscarPorId(idCompra);
+
+            if (cupom == "playstic10")
+            {
+                descontoCupom = compraPorId.Valor * (10 / 100);
+                descontoCupom -= compraPorId.Valor;
+
+                compraPorId.Valor = descontoCupom;
+                dbContext.Compras.Update(compraPorId);
+                dbContext.SaveChanges();
+
+                return "Preço Atualizado Com Sucesso";
+            }
+            
+            return "Cupom Inválido";
+        }
+
+        public static Compra IniciarCompra(this DAO<Compra>dao, int idJogo, int idCliente,string cpfCliente, CompraDbContext dbContext)
+        {
+            Compra compra = new(idJogo, idCliente,cpfCliente);
+            
+            
+
+
+            return compra;
+        }
+
+
+    }
+
 }

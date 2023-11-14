@@ -38,8 +38,7 @@ namespace ComprarJogo.Models
             get { return _CPF; }
             set { _CPF = value; }
         }
-        
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+
         private DateTime? _DataNascimento;
 
         public DateTime? DataNascimento

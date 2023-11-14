@@ -15,6 +15,7 @@ namespace ComprarJogo.Controllers
         private readonly DAO<Jogo> jogoDAO;
         private readonly DAO<Compra> compraDAO;
         private readonly CompraDbContext dbContext;
+        
 
         public SistemaController(DAO<Jogo> jogoDAO,DAO<Compra> compraDAO, CompraDbContext dbContext) 
         {
@@ -38,15 +39,26 @@ namespace ComprarJogo.Controllers
         }
 
         [HttpGet("/ExibirJogo")]
-        public ActionResult<List<Jogo>> ExibirJogo(string filtro) 
+        public ActionResult<List<Jogo>> ExibirJogo(string? nome ,string? filtro1, string? filtro2, string? filtro3, string? filtro4) 
         {
-            List<Jogo> jogos = jogoDAO.BuscarJogosPorGenero(filtro,dbContext);
+            List<Jogo> jogos = jogoDAO.BuscarJogosPorFiltros(nome,filtro1,filtro2,filtro3,filtro4,dbContext);
 
             return Ok(jogos);
         }
 
-        [HttpPost("/IniciarCompra")]
-        public ActionResult<Compra> IniciarCompra([FromBody]Compra compra)
+        [HttpGet("/IniciarCompra")]
+        public ActionResult<Compra> IniciarCompra(int idJogo, int idCliente,string cpfCliente)
+        {
+            Compra compraIniciada = compraDAO.IniciarCompra(idJogo, idCliente,cpfCliente,dbContext);
+
+
+
+            return Ok(compraIniciada);
+        }
+
+
+        [HttpPost("/RegistrarCompra")]
+        public ActionResult<Compra> RegistrarCompra(Compra compra)
         {
             Compra compraIniciada = compraDAO.Adicionar(compra);
 
@@ -54,11 +66,12 @@ namespace ComprarJogo.Controllers
         }
 
         [HttpPut("/AtualizarPrecoCompra")]
-        public ActionResult<Compra> AtualizarPrecoCompra([FromBody]Compra compra, int IdCompra)
+        public ActionResult<Compra> AtualizarPrecoCompra(int idCompra, string cupom)
         {
-            compra.IdCompra = IdCompra;
-            //Compra compraAtt = compraDAO.AtualizarPreco(compra, IdCompra);
-            return Ok();
+            
+            string cupomAutenticado = compraDAO.AtualizarPreco(idCompra,cupom,dbContext);
+
+            return Ok(cupomAutenticado);
         }
 
         [HttpGet("ExibirFormaPagamento")]
@@ -77,6 +90,8 @@ namespace ComprarJogo.Controllers
 
 
     }
+   
+
 
     
 }

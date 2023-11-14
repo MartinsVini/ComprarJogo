@@ -14,7 +14,9 @@ namespace ComprarJogo.Data.Maps
             builder.Property(c => c.IdCliente);
             builder.Property(c => c.CpfCliente);
             builder.Property(c => c.IdPagamento);
-            builder.Property(c => c.DataCompra);
+            builder.Property(c => c.DataCompra).HasColumnType("date");
+            builder.Property(c => c.Cupom);
+            builder.Property(c => c.Valor);
             
 
             

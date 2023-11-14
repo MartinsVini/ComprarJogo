@@ -11,7 +11,7 @@ namespace ComprarJogo.Data.Maps
             builder.HasKey(c => c.IdJogo);
             builder.Property(c => c.IdJogo).UseIdentityColumn();
             builder.Property(c => c.Nome).IsRequired();
-            builder.Property(c => c.DataLançamento).IsRequired().HasMaxLength(250);
+            builder.Property(c => c.DataLançamento).HasColumnType("date");
             builder.Property(c => c.Genero).IsRequired().HasMaxLength(250);
             builder.Property(c => c.ClassificaoIndicativa).IsRequired().HasMaxLength(250);
             builder.Property(c => c.Preço).IsRequired().HasMaxLength(250);

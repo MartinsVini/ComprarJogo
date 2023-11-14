@@ -13,7 +13,7 @@ namespace ComprarJogo.Data.Maps
             builder.Property(c => c.Nome).IsRequired().HasMaxLength(250);
             builder.Property(c => c.Email).IsRequired().HasMaxLength(250);
             builder.Property(c => c.Senha).IsRequired().HasMaxLength(250);
-            builder.Property(c => c.DataNascimento).IsRequired().HasMaxLength(250);
+            builder.Property(c => c.DataNascimento).HasColumnType("date");
             builder.HasOne(c => c.Compra).WithOne(c => c.Cliente).HasForeignKey<Compra>(c => new {c.IdCliente, c.CpfCliente});
 
 

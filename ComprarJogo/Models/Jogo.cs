@@ -20,9 +20,9 @@ namespace ComprarJogo.Models
             set { _Nome = value; } 
         }
      
-        private string? _DataLançamento;
+        private DateTime? _DataLançamento;
 
-        public string? DataLançamento
+        public DateTime? DataLançamento
         {
             get { return _DataLançamento; }
             set { _DataLançamento = value; }

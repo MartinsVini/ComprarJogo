@@ -2,7 +2,7 @@
 using ComprarJogo.Models;
 using ComprarJogo.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
-
+using System.Linq;
 
 namespace ComprarJogo.Repository
 {
@@ -70,15 +70,45 @@ namespace ComprarJogo.Repository
 
     public static class MetodosExtensaoJogo 
     {
-        public static List<Jogo> BuscarJogosPorGenero(this DAO<Jogo> dao, string filtro, CompraDbContext dbContext)
+        public static List<Jogo> BuscarJogosPorFiltros(this DAO<Jogo> dao, string? nome,string? filtro1,string? filtro2, string? filtro3, string? filtro4, CompraDbContext dbContext)
         {
-            //Implementar metodo com o context
-            List<Jogo> jogosPorGenero = dbContext.Jogos.Where(x => x.Genero
-            == filtro).AsNoTracking().ToList();
+            IQueryable<Jogo>? query = dbContext.Jogos.AsNoTracking();
+            
+            if (nome != null)
+            {
+                query = dbContext.Jogos.OrderByDescending(x => x.Nome.Contains(nome));
+            }
 
-            return jogosPorGenero;
+            if(filtro1 != null)
+            {
+                query = dbContext.Jogos.OrderByDescending(x => x.Genero.Contains(filtro1));
+            }
+
+            if (filtro2 != null)
+            {
+                query.Concat(dbContext.Jogos.OrderByDescending(x => x.Genero.Contains(filtro2)));
+                //query.Concat(dbContext.Jogos.Where(x => x.Genero == filtro2).AsNoTracking());
+            }
+
+            if (filtro3 != null)
+            {
+                query = dbContext.Jogos.AsNoTracking();
+                query.Concat(dbContext.Jogos.Where(x => x.Genero == filtro3).AsNoTracking());
+            }
+
+            if (filtro4 != null)
+            {
+                query = dbContext.Jogos.AsNoTracking();
+                query.Concat(dbContext.Jogos.Where(x => x.Genero == filtro4).AsNoTracking());
+            }
+
+            List<Jogo> jogosPorFiltro = query.ToList();
+
+            return jogosPorFiltro;
 
 
         }
+
+       
     }
 }

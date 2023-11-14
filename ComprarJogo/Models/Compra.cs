@@ -5,13 +5,13 @@ namespace ComprarJogo.Models
 {
     public class Compra
     {
-       
+
         private int _IdCompra;
 
         public int IdCompra
         {
-            get { return _IdCompra; } 
-            set {  _IdCompra = value; }
+            get { return _IdCompra; }
+            set { _IdCompra = value; }
         }
 
         private int _IdJogo;
@@ -21,12 +21,12 @@ namespace ComprarJogo.Models
             get { return _IdJogo; }
             set { _IdJogo = value; }
         }
-        
+
         private int _IdCliente;
 
         public int IdCliente
         {
-            get {return _IdCliente; }
+            get { return _IdCliente; }
             set { _IdCliente = value; }
         }
 
@@ -45,16 +45,31 @@ namespace ComprarJogo.Models
             get { return _CpfCliente; }
             set { _CpfCliente = value; }
         }
-      
-        private string? _DataCompra;
 
-        public string ? DataCompra
+        private DateTime? _DataCompra;
+
+        public DateTime? DataCompra
         {
-            get { return _DataCompra; } 
+            get { return _DataCompra; }
             set { _DataCompra = value; }
         }
 
- 
+        private string? _Cupom;
+
+        public string? Cupom
+        {
+            get { return _Cupom; }
+            set { _Cupom = value; }
+        }
+
+        private double? _Valor;
+
+        public double? Valor
+        {
+            get { return _Valor; }
+            set { _Valor = value; }
+        }
+
 
 
         public virtual Pagamento? Pagamento { get; set; }
@@ -67,7 +82,7 @@ namespace ComprarJogo.Models
             this.IdJogo = idJogo;
             this.IdCliente = idCliente;
             this.CpfCliente = cpfCliente;
-            this.DataCompra = DateTime.Now.ToString();
+            this.DataCompra = DateTime.Now;
         }
     }
 }

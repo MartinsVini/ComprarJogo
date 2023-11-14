@@ -4,6 +4,7 @@ using ComprarJogo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComprarJogo.Migrations
 {
     [DbContext(typeof(CompraDbContext))]
-    partial class CompraDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231113233014_Alters")]
+    partial class Alters
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +37,9 @@ namespace ComprarJogo.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("DataNascimento")
-                        .HasColumnType("date");
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -74,7 +79,7 @@ namespace ComprarJogo.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DataCompra")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("IdCliente")
                         .HasColumnType("int");
@@ -115,8 +120,10 @@ namespace ComprarJogo.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DataLançamento")
-                        .HasColumnType("date");
+                    b.Property<string>("DataLançamento")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
