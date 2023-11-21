@@ -12,6 +12,13 @@ namespace ComprarJogo.Models
             set { _IdJogo = value; }
         }
 
+        private int _IdBiblioteca;
+        public int IdBiblioteca
+        {
+            get { return _IdBiblioteca; }
+            set { _IdBiblioteca = value; }
+        }
+
         private string? _Nome;
 
         public string? Nome
@@ -58,12 +65,10 @@ namespace ComprarJogo.Models
             set { _Descricao = value; }
         }
 
-        private Compra? _Compra;
+        public List<Compra>? Compras;
         
-        public virtual Compra? Compra
-        {
-            get { return _Compra;}
-            set { _Compra = value; }
-        }
+
+        //public virtual List<BibliotecaCliente>? BibliotecaClientes { get; set; }
+
     }
 }

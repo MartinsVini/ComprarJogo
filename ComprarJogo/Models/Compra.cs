@@ -1,4 +1,5 @@
 ﻿using ComprarJogo.Repository;
+using Microsoft.AspNetCore.Server.IIS.Core;
 using System.ComponentModel.DataAnnotations;
 
 namespace ComprarJogo.Models
@@ -38,12 +39,20 @@ namespace ComprarJogo.Models
             set { _IdPagamento = value; }
         }
 
-        private string? _CpfCliente;
+        private int _IdReembolso;
 
-        public string? CpfCliente
+        public int IdReembolso
         {
-            get { return _CpfCliente; }
-            set { _CpfCliente = value; }
+            get { return _IdReembolso; }
+            set { _IdReembolso = value; }
+        }
+
+        private string? _StatusCompra;
+
+        public string? StatusCompra
+        {
+            get { return _StatusCompra; }
+            set { _StatusCompra = value; }
         }
 
         private DateTime? _DataCompra;
@@ -70,19 +79,33 @@ namespace ComprarJogo.Models
             set { _Valor = value; }
         }
 
+        private int _IdBiblioteca;
 
+        public int IdBiblioteca
+        {
+            get { return _IdBiblioteca; }
+            set { _IdBiblioteca = value; }
+        }
 
         public virtual Pagamento? Pagamento { get; set; }
         public virtual Cliente? Cliente { get; set; }
         public virtual Jogo? Jogo { get; set; }
+        public virtual Reembolso? Reemboolso { get; set; }
 
-        public Compra(int idJogo, int idCliente, string cpfCliente)
+        public Compra() 
+        { }
+
+        public Compra(int idJogo, int idCliente, double valor, Pagamento pagamento, Reembolso reembolso)
         {
-
             this.IdJogo = idJogo;
             this.IdCliente = idCliente;
-            this.CpfCliente = cpfCliente;
+            this.Pagamento = pagamento;
+            this.Reemboolso = reembolso;
+            this.Valor = valor;
             this.DataCompra = DateTime.Now;
+            this.StatusCompra = "Aguardando Pagamento";
+            
+
         }
     }
 }

@@ -2,6 +2,7 @@
 using ComprarJogo.Models;
 using ComprarJogo.Repository;
 using ComprarJogo.Repository.Interfaces;
+using ComprarJogo.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ComprarJogo.Controllers
@@ -10,13 +11,16 @@ namespace ComprarJogo.Controllers
     [ApiController]
     public class ClienteController : ControllerBase
     {
-        private readonly DAO<Cliente> clienteDAO;
+        private readonly IClienteDAO clienteDAO;
+        private readonly ClienteService clienteService;
         private readonly CompraDbContext dbContext;
 
-        public ClienteController(DAO<Cliente> clienteDAO, CompraDbContext dbContext)
+        public ClienteController(IClienteDAO clienteDAO,ClienteService clienteService, CompraDbContext dbContext)
         {
             this.clienteDAO = clienteDAO;
+            this.clienteService = clienteService;
             this.dbContext = dbContext;
+            
         }
 
         [HttpGet("/BuscarTodosClientes")]
@@ -27,17 +31,16 @@ namespace ComprarJogo.Controllers
         }
 
         [HttpGet("/Logar")]
-        public ActionResult<Cliente> Logar(string email, string senha, CompraDbContext dbContext)
+        public ActionResult<Cliente> Logar(string email, string senha)
         {
-            bool logado =  clienteDAO.Logar(email, senha, dbContext);
+            bool logado =  clienteService.Logar(email, senha);
             return Ok(logado);
         }
 
-
         [HttpGet("/BuscarPorEmail")]
-        public ActionResult<List<Cliente>> BuscarPorEmail(string email, CompraDbContext dbContext)
+        public ActionResult<List<Cliente>> BuscarPorEmail(string email)
         {
-            Cliente cliente =  clienteDAO.BuscarPorEmail(email, dbContext);
+            Cliente cliente =  clienteDAO.BuscarPorEmail(email);
             return Ok(cliente);
         }
 
@@ -47,29 +50,6 @@ namespace ComprarJogo.Controllers
             Cliente clienteCadastrado = clienteDAO.Adicionar(cliente);
             return Ok(clienteCadastrado);
 
-        }
-
-        [HttpPut("/AtualizarCliente")]
-        public ActionResult<Cliente> Atualizar([FromBody] Cliente cliente, int id)
-        {
-            cliente.IdCliente = id;
-            Cliente clienteAtualizado = clienteDAO.Atualizar(cliente, id);
-            return Ok(clienteAtualizado);
-
-        }
-
-        [HttpDelete("/ApagarCliente")]
-        public ActionResult<Cliente> Apagar( int id)
-        {
-
-            bool apagado = clienteDAO.Apagar(id);
-            return Ok(apagado);
-
-
-
-
-        }
-
-        
+        }     
     }
 }

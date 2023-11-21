@@ -4,6 +4,7 @@ using ComprarJogo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComprarJogo.Migrations
 {
     [DbContext(typeof(CompraDbContext))]
-    partial class CompraDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231120012142_OneToManyFixed2")]
+    partial class OneToManyFixed2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,7 +105,8 @@ namespace ComprarJogo.Migrations
 
                     b.HasIndex("IdCliente");
 
-                    b.HasIndex("IdJogo");
+                    b.HasIndex("IdJogo")
+                        .IsUnique();
 
                     b.HasIndex("IdPagamento")
                         .IsUnique();
@@ -178,9 +182,11 @@ namespace ComprarJogo.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdReembolso"));
 
                     b.Property<string>("ChavePix")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Motivo")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdReembolso");
@@ -197,8 +203,8 @@ namespace ComprarJogo.Migrations
                         .IsRequired();
 
                     b.HasOne("ComprarJogo.Models.Jogo", "Jogo")
-                        .WithMany("Compras")
-                        .HasForeignKey("IdJogo")
+                        .WithOne("Compra")
+                        .HasForeignKey("ComprarJogo.Models.Compra", "IdJogo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -228,7 +234,7 @@ namespace ComprarJogo.Migrations
 
             modelBuilder.Entity("ComprarJogo.Models.Jogo", b =>
                 {
-                    b.Navigation("Compras");
+                    b.Navigation("Compra");
                 });
 
             modelBuilder.Entity("ComprarJogo.Models.Pagamento", b =>

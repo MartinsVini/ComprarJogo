@@ -1,18 +1,27 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ComprarJogo.Repository;
+using ComprarJogo.Repository.Interfaces;
+using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
+
 
 namespace ComprarJogo.Models
 {
     public class Cliente
     {
-        //Formas de Encapsulamento em C#
-        //public int IdCliente { get => idCliente; set => idCliente = value;}
-       
-        private string? _nome;
+        private int _IdCliente;
+
+        public int IdCliente
+        {
+            get { return _IdCliente; }
+            set { _IdCliente = value; }
+        }
+
+        private string? _Nome;
 
         public string? Nome
         {
-            get { return _nome; }
-            set { _nome = value; }
+            get { return _Nome; }
+            set { _Nome = value; }
         }
 
         private string? _Senha;
@@ -33,39 +42,25 @@ namespace ComprarJogo.Models
 
         private string? _CPF;
 
-        public string?   CPF
+        public string? CPF
         {
             get { return _CPF; }
             set { _CPF = value; }
         }
 
         private DateTime? _DataNascimento;
-
+        
         public DateTime? DataNascimento
         {
-            get { return _DataNascimento;}
-            set { _DataNascimento = value;}
+            get { return _DataNascimento; }
+            set { _DataNascimento = value; }
         }
 
-        private int _IdCliente;
+        public virtual List<Compra>? Compras { get; set; }
+        //public virtual BibliotecaCliente BibliotecaJogos { get; set; } = new BibliotecaCliente();
 
-        public int IdCliente
-        {
-            get { return _IdCliente; }
-            set { _IdCliente = value; }
-        }
+        
 
-        private Compra? _Compra;
-
-        public virtual Compra? Compra
-        {
-            get { return _Compra; }
-            set { _Compra = value; }   
-        }
-
-
-        //private List<Jogo>? JogosPossuidos;
-
-
+        
     }
 }

@@ -1,5 +1,4 @@
 ﻿using ComprarJogo.Models;
-using ComprarJogo.Repository;
 using ComprarJogo.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +9,9 @@ namespace ComprarJogo.Controllers
     [ApiController]
     public class JogoController : ControllerBase
     {
-        private readonly DAO<Jogo> jogoDAO;
+        private readonly IJogoDAO jogoDAO;
 
-        public JogoController(DAO<Jogo> jogoDAO) 
+        public JogoController(IJogoDAO jogoDAO) 
         {
             this.jogoDAO = jogoDAO;
         }

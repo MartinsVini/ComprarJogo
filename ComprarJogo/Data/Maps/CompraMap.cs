@@ -11,18 +11,18 @@ namespace ComprarJogo.Data.Maps
 
             builder.HasKey(c => c.IdCompra);
             builder.Property(c => c.IdCompra).UseIdentityColumn();
-            builder.Property(c => c.IdCliente);
-            builder.Property(c => c.CpfCliente);
-            builder.Property(c => c.IdPagamento);
             builder.Property(c => c.DataCompra).HasColumnType("date");
+            builder.Property(c => c.StatusCompra).IsRequired();
             builder.Property(c => c.Cupom);
-            builder.Property(c => c.Valor);
+            builder.Property(c => c.Valor).IsRequired();
             
 
             
-            builder.HasOne(c => c.Jogo).WithOne(x => x.Compra);
-            builder.HasOne(c => c.Cliente).WithOne(x => x.Compra);
-            builder.HasOne(c => c.Pagamento).WithOne(x => x.Compra);
+            builder.HasOne(c => c.Jogo).WithMany(x => x.Compras).HasForeignKey(c => c.IdJogo);
+            builder.HasOne(c => c.Pagamento).WithOne(x => x.Compra).HasForeignKey<Compra>(c => c.IdPagamento);
+            builder.HasOne(c => c.Reemboolso).WithOne(x => x.Compra).HasForeignKey<Compra>(c => c.IdReembolso).IsRequired(false);
+            builder.HasOne(c => c.Cliente).WithMany(x => x.Compras).HasForeignKey(c => c.IdCliente);
+            
 
 
         }

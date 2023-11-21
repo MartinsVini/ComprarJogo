@@ -11,8 +11,9 @@ namespace ComprarJogo.Data.Maps
         {
             builder.HasKey(c => c.IdPagamento);
             builder.Property(c => c.IdPagamento).UseIdentityColumn();
-            builder.Property(c => c.TotalPagamento);
-            builder.HasOne(c => c.Compra).WithOne(c => c.Pagamento).HasForeignKey<Compra>(c => c.IdPagamento);
+            builder.Property(c => c.TotalPagamento).IsRequired();
+
+            //builder.HasOne(c => c.Compra).WithOne(c => c.Pagamento).HasForeignKey<Compra>(c => c.IdPagamento);
 
         }
     }

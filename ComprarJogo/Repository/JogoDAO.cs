@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ComprarJogo.Repository
 {
-    public class JogoDAO : DAO<Jogo>
+    public class JogoDAO : IJogoDAO
     {
 
 
@@ -38,48 +38,16 @@ namespace ComprarJogo.Repository
             return jogo;
         }
 
-
-
-        public Jogo Atualizar(Jogo jogo, int id)
-        {
-
-            Jogo jogoPorId = BuscarPorId(id) ?? throw new Exception($"Jogo para o ID: {id} não foi encontrado!");
-            //jogoPorId.Nome = jogo.Nome;
-            //jogoPorId.Valor = jogo.Valor;
-            //jogoPorId.Tipos = jogo.Tipos;
-            //jogoPorId.Descrição = jogo.Descrição;
-
-            dbContext.Jogos.Update(jogoPorId);
-            dbContext.SaveChanges();
-
-            return jogoPorId;
-
-        }
-        public bool Apagar(int id)
-        {
-            Jogo jogoPorId = BuscarPorId(id) ?? throw new Exception($"Jogo para o ID: {id} não foi encontrado!");
-
-            dbContext.Jogos.Remove(jogoPorId);
-            dbContext.SaveChanges();
-
-            return true;
-        }
-
-
-    }
-
-    public static class MetodosExtensaoJogo 
-    {
-        public static List<Jogo> BuscarJogosPorFiltros(this DAO<Jogo> dao, string? nome,string? filtro1,string? filtro2, string? filtro3, string? filtro4, CompraDbContext dbContext)
+        public List<Jogo> BuscarJogosPorFiltros(string? nome, string? filtro1, string? filtro2, string? filtro3, string? filtro4)
         {
             IQueryable<Jogo>? query = dbContext.Jogos.AsNoTracking();
-            
+
             if (nome != null)
             {
                 query = dbContext.Jogos.OrderByDescending(x => x.Nome.Contains(nome));
             }
 
-            if(filtro1 != null)
+            if (filtro1 != null)
             {
                 query = dbContext.Jogos.OrderByDescending(x => x.Genero.Contains(filtro1));
             }
@@ -109,6 +77,10 @@ namespace ComprarJogo.Repository
 
         }
 
-       
+
+
+
     }
+
+   
 }
